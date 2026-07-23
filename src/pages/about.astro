@@ -1,0 +1,8 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../config/site";
+---
+
+<BaseLayout title={`소개 | ${siteConfig.title}`} description={`${siteConfig.name}의 개인 지식 저장소 소개입니다.`}>
+  <article class="about-page"><p class="eyebrow">ABOUT</p><h1 data-pagefind-meta="title">소개</h1><p class="note-summary">{siteConfig.tagline}</p><div class="prose"><p>{siteConfig.description}</p><h2>관심사</h2><ul>{siteConfig.interests.map((interest) => <li>{interest}</li>)}</ul><h2>연락</h2><p><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> · <a href={siteConfig.links.github}>GitHub</a></p></div></article>
+</BaseLayout>

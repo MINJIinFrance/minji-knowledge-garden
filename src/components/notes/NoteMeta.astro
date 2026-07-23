@@ -1,0 +1,16 @@
+---
+interface Props {
+  publishedAt: Date;
+  updatedAt?: Date;
+  tags: string[];
+}
+
+const { publishedAt, updatedAt, tags } = Astro.props;
+const formatDate = (date: Date) => new Intl.DateTimeFormat("ko-KR", { dateStyle: "long" }).format(date);
+---
+
+<div class="note-meta" aria-label="노트 정보">
+  <time datetime={publishedAt.toISOString()}>작성 {formatDate(publishedAt)}</time>
+  {updatedAt && <time datetime={updatedAt.toISOString()}>수정 {formatDate(updatedAt)}</time>}
+  {tags.length > 0 && <ul class="tag-list" aria-label="태그">{tags.map((tag) => <li>{tag}</li>)}</ul>}
+</div>

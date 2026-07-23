@@ -1,7 +1,9 @@
 import { configDefaults, defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
+  plugins: [react()],
   resolve: {
     alias: {
       "astro:content": fileURLToPath(new URL("./tests/fixtures/astro-content.ts", import.meta.url))
