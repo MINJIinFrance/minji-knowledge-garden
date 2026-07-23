@@ -30,4 +30,10 @@ describe("buildEntryIndex", () => {
       'Duplicate slug "same"'
     );
   });
+
+  it("throws when a draft and published entry share a slug", () => {
+    expect(() => buildEntryIndex([note("Public", "same"), note("Draft", "same", true)])).toThrow(
+      'Duplicate slug "same"'
+    );
+  });
 });

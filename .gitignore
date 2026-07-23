@@ -1,5 +1,6 @@
 .superpowers/
 .worktrees/
 node_modules/
+.astro/
 dist/
 .DS_Store
