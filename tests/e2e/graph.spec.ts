@@ -13,5 +13,5 @@ test("graph list selects nodes and offers note navigation", async ({ page }) => 
   await page
     .getByRole("link", { name: "상태 머신으로 UI 설계하기 노트 열기" })
     .click();
-  await expect(page).toHaveURL(/\/notes\/state-machines$/);
+  await expect(page).toHaveURL(/\/notes\/state-machines\/?$/);
 });
