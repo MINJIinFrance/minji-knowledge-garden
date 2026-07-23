@@ -9,7 +9,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "validate:content": "tsx scripts/validate-content.ts",
-    "build": "pnpm validate:content && astro build && pagefind --site dist",
+    "build": "tsx scripts/validate-content.ts && astro build && pagefind --site dist",
     "preview": "astro preview"
   },
   "dependencies": {
