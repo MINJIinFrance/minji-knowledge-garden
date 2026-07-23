@@ -9,7 +9,7 @@ test("navigation and theme work with keyboard", async ({ page }) => {
 
   const isMobile = (page.viewportSize()?.width ?? 1280) <= 768;
   if (isMobile) {
-    await page.locator('summary[aria-label="주요 메뉴 열기"]').focus();
+    await page.locator('summary[aria-label="주요 메뉴"]').focus();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("navigation", { name: "모바일 주요 메뉴" })).toBeVisible();
   } else {

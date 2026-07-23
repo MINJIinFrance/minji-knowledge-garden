@@ -15,8 +15,8 @@ const {
   description = siteConfig.description,
   image
 } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
-const socialImage = image ? new URL(image, canonical).toString() : undefined;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const socialImage = image && Astro.site ? new URL(image, Astro.site).toString() : undefined;
 const theme = {
   light: "#f7f3ea",
   dark: "#181714"
@@ -30,14 +30,14 @@ const theme = {
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content={theme.light} />
-    <link rel="canonical" href={canonical} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteConfig.title} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {canonical && <meta property="og:url" content={canonical} />}
     {socialImage && <meta property="og:image" content={socialImage} />}
     <title>{title}</title>
     <script is:inline define:vars={{ theme }}>
