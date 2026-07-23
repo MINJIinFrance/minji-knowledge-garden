@@ -11,4 +11,4 @@ draft: false
 repositoryUrl: https://github.com/example/knowledge-search
 ---
 
-[[react-rendering]]과 [[state-machines]] 노트를 연결해 맥락 기반 탐색을 제공합니다.
+[[React 렌더링 흐름]]과 [[상태 머신으로 UI 설계하기]] 노트를 연결해 맥락 기반 탐색을 제공합니다.
