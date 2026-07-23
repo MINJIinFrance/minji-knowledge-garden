@@ -94,6 +94,28 @@ describe("content repository", () => {
     );
   });
 
+  it("keeps wiki links pointed at a published title when a draft shares it", async () => {
+    const source = note("source", "Source", "2026-07-01", { body: "[[Target]]" });
+    const publishedTarget = note("target", "Target", "2026-07-02");
+    const draftTarget = note("draft-target", "Target", "2026-07-03", { draft: true });
+
+    for (const entries of [
+      [source, publishedTarget, draftTarget],
+      [draftTarget, source, publishedTarget]
+    ]) {
+      const repository = createContentRepository({
+        loadNotes: async () => entries,
+        loadProjects: async () => []
+      });
+
+      expect((await repository.getKnowledgeGraph()).edges).toContainEqual({
+        source: "source",
+        target: "target"
+      });
+      expect(await repository.getBacklinks("target")).toEqual(["source"]);
+    }
+  });
+
   it("shares one loaded snapshot across queries and derives the knowledge graph", async () => {
     let noteLoads = 0;
     const alpha = note("alpha", "Alpha", "2026-07-01", { body: "[[Beta]]" });

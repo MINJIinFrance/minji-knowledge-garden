@@ -84,7 +84,9 @@ async function buildSnapshot(loaders: RepositoryLoaders): Promise<RepositorySnap
   const notesBySlug = new Map(publishedNotes.map((entry) => [entry.data.slug, entry]));
   const projectsBySlug = new Map(publishedProjects.map((entry) => [entry.data.slug, entry]));
   const noteEntries = entries.filter(isNote);
-  const notesByTitle = new Map(noteEntries.map((entry) => [entry.title, entry]));
+  const publishedNotesByTitle = new Map(
+    noteEntries.filter((entry) => !entry.draft).map((entry) => [entry.title, entry])
+  );
 
   return {
     allEntries,
@@ -92,8 +94,8 @@ async function buildSnapshot(loaders: RepositoryLoaders): Promise<RepositorySnap
     publishedProjects,
     notesBySlug,
     projectsBySlug,
-    graph: buildGraph(noteEntries, notesByTitle),
-    backlinks: buildBacklinks(noteEntries, notesByTitle)
+    graph: buildGraph(noteEntries, publishedNotesByTitle),
+    backlinks: buildBacklinks(noteEntries, publishedNotesByTitle)
   };
 }
 
