@@ -9,6 +9,7 @@ import { extractWikiLinks } from "./wiki-links";
 export function validateContent(entries: unknown[]): { warnings: string[] } {
   const normalized = normalizeContentEntries(entries);
   assertUniqueSlugs(normalized);
+  assertUniquePublishedNoteTitles(normalized);
 
   const publishedNoteTitles = new Set(
     normalized.filter(isNote).filter((entry) => !entry.draft).map((entry) => entry.title)
@@ -82,6 +83,17 @@ function assertUniqueSlugs(entries: KnowledgeEntry[]): void {
   for (const entry of entries) {
     if (slugs.has(entry.slug)) throw new Error(`Duplicate slug "${entry.slug}"`);
     slugs.add(entry.slug);
+  }
+}
+
+function assertUniquePublishedNoteTitles(entries: KnowledgeEntry[]): void {
+  const titles = new Set<string>();
+  for (const entry of entries) {
+    if (!isNote(entry) || entry.draft) continue;
+    if (titles.has(entry.title)) {
+      throw new Error(`Duplicate published note title "${entry.title}"`);
+    }
+    titles.add(entry.title);
   }
 }
 

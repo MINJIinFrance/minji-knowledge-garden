@@ -80,6 +80,20 @@ describe("content repository", () => {
     await expect(repository.getProjectBySlug("draft-project")).resolves.toBeUndefined();
   });
 
+  it("rejects a snapshot with duplicate published note titles", async () => {
+    const repository = createContentRepository({
+      loadNotes: async () => [
+        note("first", "Same title", "2026-07-01"),
+        note("second", "Same title", "2026-07-02")
+      ],
+      loadProjects: async () => []
+    });
+
+    await expect(repository.getPublishedNotes()).rejects.toThrow(
+      'Duplicate published note title "Same title"'
+    );
+  });
+
   it("shares one loaded snapshot across queries and derives the knowledge graph", async () => {
     let noteLoads = 0;
     const alpha = note("alpha", "Alpha", "2026-07-01", { body: "[[Beta]]" });

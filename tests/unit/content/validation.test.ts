@@ -49,6 +49,24 @@ describe("validateContent", () => {
     expect(() => validateContent([note(), project({ slug: "a", draft: true })])).toThrow('Duplicate slug "a"');
   });
 
+  it("rejects duplicate titles among published notes", () => {
+    expect(() =>
+      validateContent([
+        note({ title: "Same title", slug: "first" }),
+        note({ title: "Same title", slug: "second" })
+      ])
+    ).toThrow('Duplicate published note title "Same title"');
+  });
+
+  it("allows a draft note to share a published note title", () => {
+    expect(() =>
+      validateContent([
+        note({ title: "Same title", slug: "published" }),
+        note({ title: "Same title", slug: "draft", draft: true })
+      ])
+    ).not.toThrow();
+  });
+
   it("rejects invalid metadata before deriving links", () => {
     expect(() => validateContent([note({ title: "" })])).toThrow(/Invalid note metadata/);
   });
