@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import { render } from "astro:content";
 import NoteLayout from "../../layouts/NoteLayout.astro";
 import { getBacklinks, getNoteBySlug, getPublishedNotes } from "../../lib/content/repository";
