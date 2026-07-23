@@ -1,8 +1,8 @@
 ---
 import { siteConfig } from "../config/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="ko">
-  <head><title>{siteConfig.title}</title></head>
-  <body><h1>{siteConfig.tagline}</h1></body>
-</html>
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+  <h1>{siteConfig.tagline}</h1>
+</BaseLayout>

@@ -1,0 +1,84 @@
+.prose {
+  width: min(100%, var(--reading-width));
+  margin-inline: auto;
+  color: var(--ink);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+}
+
+.prose > * + * {
+  margin-top: 1.35em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 2.25em;
+  margin-bottom: 0.7em;
+  scroll-margin-top: 2rem;
+}
+
+.prose h2 {
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--line);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.prose h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.65rem);
+}
+
+.prose p,
+.prose li {
+  max-width: 72ch;
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding: 0.15rem 0 0.15rem 1.2rem;
+  border-left: 0.2rem solid var(--accent);
+  color: var(--muted);
+}
+
+.prose :not(pre) > code {
+  padding: 0.12em 0.35em;
+  border: 1px solid var(--line);
+  border-radius: 0.2rem;
+  background: var(--surface);
+  font-size: 0.9em;
+}
+
+.prose pre {
+  max-width: 100%;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: var(--surface);
+  line-height: 1.55;
+}
+
+.prose img,
+.prose video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.prose .broken-wiki-link {
+  color: var(--muted);
+  text-decoration: underline dotted;
+  text-underline-offset: 0.18em;
+}

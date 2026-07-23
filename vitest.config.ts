@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
 
 export default defineConfig({
@@ -8,6 +8,7 @@ export default defineConfig({
     }
   },
   test: {
+    exclude: [...configDefaults.exclude, "tests/e2e/**"],
     environment: "jsdom",
     include: ["src/**/*.{test,spec}.{ts,tsx}", "tests/**/*.{test,spec}.{ts,tsx}"]
   }

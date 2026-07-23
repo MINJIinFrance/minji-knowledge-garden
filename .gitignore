@@ -3,4 +3,6 @@
 node_modules/
 .astro/
 dist/
+test-results/
+playwright-report/
 .DS_Store
