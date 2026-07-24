@@ -1,0 +1,22 @@
+---
+export const prerender = true;
+
+import { render } from "astro:content";
+import NoteLayout from "../../layouts/NoteLayout.astro";
+import { getBacklinks, getNoteBySlug, getPublishedNotes } from "../../lib/content/repository";
+import { extractWikiLinks } from "../../lib/content/wiki-links";
+
+export async function getStaticPaths() {
+  return (await getPublishedNotes()).map((note) => ({ params: { slug: note.data.slug }, props: { slug: note.data.slug } }));
+}
+const { slug } = Astro.props;
+const note = await getNoteBySlug(slug);
+if (!note) return Astro.redirect("/404");
+const allNotes = await getPublishedNotes();
+const backlinks = (await getBacklinks(slug)).flatMap((backlinkSlug) => allNotes.filter((entry) => entry.data.slug === backlinkSlug));
+const targets = new Set(extractWikiLinks(note.body ?? ""));
+const references = allNotes.filter((entry) => targets.has(entry.data.title)).map((entry) => ({ href: `/notes/${entry.data.slug}`, title: entry.data.title, summary: entry.data.summary }));
+const { Content, headings } = await render(note);
+---
+
+<NoteLayout note={note} headings={headings} backlinks={backlinks} references={references}><article data-pagefind-body><Content /></article></NoteLayout>

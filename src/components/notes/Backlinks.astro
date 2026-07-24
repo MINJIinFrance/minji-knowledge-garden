@@ -1,0 +1,15 @@
+---
+import type { NoteEntry } from "../../lib/content/repository";
+
+interface Props { notes: NoteEntry[]; }
+const { notes } = Astro.props;
+---
+
+<section class="backlinks" aria-labelledby="backlinks-title">
+  <h2 id="backlinks-title">이 노트를 언급한 글</h2>
+  {notes.length > 0 ? (
+    <ul>
+      {notes.map((note) => <li><a href={`/notes/${note.data.slug}`}>{note.data.title}</a><span>{note.data.summary}</span></li>)}
+    </ul>
+  ) : <p>아직 이 노트를 언급한 다른 글이 없습니다.</p>}
+</section>

@@ -1,0 +1,87 @@
+---
+import SiteHeader from "../components/layout/SiteHeader.astro";
+import SearchLauncher from "../components/search/SearchLauncher.astro";
+import { siteConfig } from "../config/site";
+import "../styles/global.css";
+import "../styles/prose.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  image,
+  article = false
+} = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const socialImage = image && Astro.site ? new URL(image, Astro.site).toString() : undefined;
+const theme = {
+  light: "#f7f3ea",
+  dark: "#181714"
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "WebSite", name: siteConfig.title, description: siteConfig.description, ...(canonical ? { url: canonical.toString() } : {}) },
+    { "@type": "Person", name: siteConfig.name, url: canonical?.origin, sameAs: [siteConfig.links.github] }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={theme.light} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:site_name" content={siteConfig.title} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <slot name="head" />
+    <script is:inline define:vars={{ theme }}>
+      (() => {
+        let selectedTheme;
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          selectedTheme =
+            storedTheme === "light" || storedTheme === "dark"
+              ? storedTheme
+              : matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        } catch {
+          selectedTheme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = selectedTheme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute("content", selectedTheme === "dark" ? theme.dark : theme.light);
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+    <SiteHeader />
+    <SearchLauncher />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <small>&copy; {new Date().getFullYear()} {siteConfig.name}. 배운 것을 연결하는 기록.</small>
+    </footer>
+  </body>
+</html>

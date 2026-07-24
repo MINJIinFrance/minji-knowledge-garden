@@ -1,0 +1,58 @@
+<button
+  class="theme-toggle"
+  type="button"
+  aria-label="테마 전환"
+  aria-pressed="false"
+  title="어두운 테마로 전환"
+  data-theme-toggle
+>
+  <svg class="theme-toggle__icon theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    />
+  </svg>
+  <svg class="theme-toggle__icon theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="3.7" fill="none" stroke="currentColor" stroke-width="1.8" />
+    <path
+      d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-width="1.8"
+    />
+  </svg>
+  <span class="visually-hidden" data-theme-status>현재 밝은 테마</span>
+</button>
+
+<script>
+  const setThemeButtonState = (button: HTMLButtonElement) => {
+    const isDark = document.documentElement.dataset.theme === "dark";
+    button.setAttribute("aria-pressed", String(isDark));
+    button.title = isDark ? "밝은 테마로 전환" : "어두운 테마로 전환";
+    const status = button.querySelector<HTMLElement>("[data-theme-status]");
+    if (status) status.textContent = isDark ? "현재 어두운 테마" : "현재 밝은 테마";
+  };
+
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((button) => {
+    setThemeButtonState(button);
+    button.addEventListener("click", () => {
+      const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+      try {
+        localStorage.setItem("theme", theme);
+      } catch {
+        // The selected theme still applies when storage is unavailable.
+      }
+      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute(
+        "content",
+        theme === "dark" ? "#181714" : "#f7f3ea"
+      );
+      setThemeButtonState(button);
+    });
+  });
+</script>

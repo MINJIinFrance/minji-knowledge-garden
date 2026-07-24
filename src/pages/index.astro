@@ -1,0 +1,21 @@
+---
+export const prerender = true;
+
+import { siteConfig } from "../config/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NoteCard from "../components/notes/NoteCard.astro";
+import { getPublishedNotes, getPublishedProjects } from "../lib/content/repository";
+
+const [notes, projects] = await Promise.all([getPublishedNotes(), getPublishedProjects()]);
+---
+
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+  <section class="home-hero" data-pagefind-body>
+    <p class="eyebrow">PERSONAL KNOWLEDGE PORTFOLIO</p>
+    <h1 data-pagefind-meta="title">{siteConfig.tagline}</h1>
+    <p class="note-summary">개발과 데이터를 탐구하며, 배운 내용과 만든 결과물을 서로 연결합니다.</p>
+    <p><a class="button-link" href="/notes">노트 읽기</a> <a href="/projects">프로젝트 보기</a></p>
+  </section>
+  <section class="home-section" aria-labelledby="latest-notes"><div class="section-heading"><h2 id="latest-notes">최근 노트</h2><a href="/notes">모든 노트</a></div><div class="card-list">{notes.slice(0, 3).map((note) => <NoteCard note={note} />)}</div></section>
+  <section class="home-section" aria-labelledby="featured-projects"><div class="section-heading"><h2 id="featured-projects">주요 프로젝트</h2><a href="/projects">모든 프로젝트</a></div><div class="card-list">{projects.filter((project) => project.data.featured).map((project) => <article class="note-card"><h3><a href={`/projects/${project.data.slug}`}>{project.data.title}</a></h3><p>{project.data.summary}</p></article>)}</div></section>
+</BaseLayout>

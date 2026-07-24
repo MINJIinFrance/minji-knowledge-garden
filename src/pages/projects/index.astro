@@ -1,0 +1,12 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedProjects } from "../../lib/content/repository";
+const projects = await getPublishedProjects();
+---
+
+<BaseLayout title="프로젝트 | minji.log" description="만든 것으로 증명하는 프로젝트 기록입니다.">
+  <header class="page-intro"><p class="eyebrow">PORTFOLIO</p><h1 data-pagefind-meta="title">프로젝트</h1><p>문제를 풀기 위해 만든 결과물과 배운 점을 모읍니다.</p></header>
+  <section class="card-list" data-pagefind-body aria-label="공개 프로젝트">{projects.length ? projects.map((project) => <article class="note-card"><p class="eyebrow">{project.data.status}</p><h2><a href={`/projects/${project.data.slug}`}>{project.data.title}</a></h2><p>{project.data.summary}</p><p>{project.data.period}</p></article>) : <p>공개된 프로젝트가 아직 없습니다.</p>}</section>
+</BaseLayout>

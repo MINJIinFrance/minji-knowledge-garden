@@ -1,0 +1,28 @@
+---
+const currentPath = Astro.url.pathname;
+const links = [
+  { href: "/", label: "홈" },
+  { href: "/notes", label: "노트" },
+  { href: "/graph", label: "지식 그래프" },
+  { href: "/projects", label: "프로젝트" },
+  { href: "/about", label: "소개" }
+];
+
+const isCurrent = (href: string) =>
+  href === "/" ? currentPath === href : currentPath.startsWith(href);
+---
+
+<details class="mobile-navigation">
+  <summary aria-label="주요 메뉴">
+    <span class="mobile-navigation__label" aria-hidden="true"></span>
+  </summary>
+  <nav aria-label="모바일 주요 메뉴">
+    <ul>
+      {
+        links.map(({ href, label }) => (
+          <li><a href={href} aria-current={isCurrent(href) ? "page" : undefined}>{label}</a></li>
+        ))
+      }
+    </ul>
+  </nav>
+</details>

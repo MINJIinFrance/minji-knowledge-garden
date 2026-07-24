@@ -1,0 +1,13 @@
+---
+import type { NoteEntry } from "../../lib/content/repository";
+
+interface Props { note: NoteEntry; }
+const { note } = Astro.props;
+---
+
+<article class="note-card" data-pagefind-body>
+  <p class="eyebrow">{note.data.topic}</p>
+  <h2><a href={`/notes/${note.data.slug}`}>{note.data.title}</a></h2>
+  <p>{note.data.summary}</p>
+  <p class="note-card__meta"><time datetime={note.data.publishedAt.toISOString()}>{note.data.publishedAt.toLocaleDateString("ko-KR")}</time></p>
+</article>

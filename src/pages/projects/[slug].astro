@@ -1,0 +1,16 @@
+---
+export const prerender = true;
+
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getProjectBySlug, getPublishedProjects } from "../../lib/content/repository";
+export async function getStaticPaths() { return (await getPublishedProjects()).map((project) => ({ params: { slug: project.data.slug }, props: { slug: project.data.slug } })); }
+const { slug } = Astro.props;
+const project = await getProjectBySlug(slug);
+if (!project) return Astro.redirect("/404");
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${project.data.title} | minji.log`} description={project.data.summary} article>
+  <article class="project-detail" data-pagefind-body><p class="eyebrow">{project.data.status} · {project.data.period}</p><h1 data-pagefind-meta="title">{project.data.title}</h1><p class="note-summary">{project.data.summary}</p><ul class="tag-list" aria-label="기술">{project.data.technologies.map((technology) => <li>{technology}</li>)}</ul><div class="prose"><Content /></div><p class="project-links">{project.data.repositoryUrl && <a href={project.data.repositoryUrl}>저장소 보기</a>} {project.data.demoUrl && <a href={project.data.demoUrl}>데모 보기</a>}</p></article>
+</BaseLayout>
