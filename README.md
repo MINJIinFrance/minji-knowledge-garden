@@ -1,4 +1,4 @@
-# minjae.log
+# minji.log
 
 개인 공부 기록과 프로젝트를 연결해 공개하는 Astro 기반 지식 포트폴리오입니다.
 

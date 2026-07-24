@@ -7,7 +7,7 @@ import { getKnowledgeGraph } from "../lib/content/repository";
 const { nodes, edges } = await getKnowledgeGraph();
 ---
 
-<BaseLayout title="지식 그래프 | minjae.log" description="노트 사이의 연결을 탐색하는 지식 그래프입니다.">
+<BaseLayout title="지식 그래프 | minji.log" description="노트 사이의 연결을 탐색하는 지식 그래프입니다.">
   <header class="page-intro"><p class="eyebrow">CONNECTIONS</p><h1 data-pagefind-meta="title">지식 그래프</h1><p>노트를 선택해 직접 연결된 생각을 따라가 보세요.</p></header>
   <KnowledgeGraph client:load nodes={nodes} edges={edges} />
 </BaseLayout>
