@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
   name: "Minji",
   title: "minji.log",
   tagline: "Learn. Connect. Create. Prove",
-  description: "개발과 데이터에 관한 개인 지식 저장소이자 포트폴리오.",
+  description: "A personal knowledge garden and portfolio",
   interests: ["Biostatistics", "Causal Inference", "RWD", "RWE"],
   email: "nmj936@gmail.com",
   links: { github: "https://github.com/MINJIinFrance" }
